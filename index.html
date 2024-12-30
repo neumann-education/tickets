@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Consulta</title>
+    <link rel="icon" type="image/png" href="https://cdn.bitrix24.es/b15495391/resize_cache/103527/eb45a9f96698d396483d7a1236fe0380/landing/076/076071ca0420809ebdf7f49c4b677f7b/cropped-Logo-Neumann-270x270.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        body {
+            font-family: 'Source Serif Pro', serif;
+            background-image: url('https://scontent.ftcq2-1.fna.fbcdn.net/v/t39.30808-6/465857635_945593640933213_9182492665170561658_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=P_UT-xocpgcQ7kNvgEOQEn_&_nc_oc=AdjaRUKFAvd-STBX3fyafzBmK6wuJsyeSwXi2tCQKUNXay5AWdwxAuEDX_uqfe2TujNdYfIArHKTIKyONMigLDBt&_nc_zt=23&_nc_ht=scontent.ftcq2-1.fna&_nc_gid=AH4SwugGzklQVtC2OMLAW1L&oh=00_AYAX2ylCswF76cPrsJ6YNGCtfe5j9O5TmLIP2zSPSrTDFg&oe=67789CBD');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            background-attachment: fixed;
+        }
+        .form-container {
+            background: #fff;
+            padding: 20px;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .form-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 20px;
+            color: #444;
+        }
+        .form-container label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        .form-container input, .form-container select, .form-container textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #f9f9f9;
+            color: #333;
+            font-size: 14px;
+        }
+        .form-container button {
+            background: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: background 0.3s ease;
+            font-weight: bold;
+        }
+        .form-container button:hover {
+            background: #0056b3;
+        }
+        @media (max-width: 600px) {
+            .form-container {
+                padding: 15px;
+            }
+            .form-container h1 {
+                font-size: 18px;
+            }
+            .form-container input, .form-container select, .form-container textarea {
+                padding: 8px;
+                margin-bottom: 10px;
+            }
+            .form-container button {
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="form-container">
+        <!-- Aquí se cargará el formulario correspondiente -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Función para detectar si es móvil o PC
+        function isMobile() {
+            return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        }
+
+        // Mostrar SweetAlert para preguntar al usuario
+        Swal.fire({
+            title: '¿En qué dispositivo estás?',
+            text: 'Selecciona si estás en un PC o en un dispositivo móvil.',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'PC',
+            cancelButtonText: 'Móvil',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Cargar formulario para PC
+                cargarFormularioPC();
+            } else if (result.isDismissed) {
+                // Cargar formulario para móvil
+                cargarFormularioMovil();
+            }
+        });
+
+        // Datos de asuntos (Presencial y Online)
+        const asuntosPresencial = [
+            "Matrículas (P)",
+            "Topicos (P)",
+            "Contacto docente (P)",
+            "Examenes optativos (P)",
+            "Becas Asistenciales (P)",
+            "Visualización de notas de procesos y acta personal (P)",
+            "Consultas sobre el curso de EFSRT (P)",
+            "Compra de examen optativo 6to ciclo (P)",
+            "Clases de 6to ciclo (P)",
+            "Recuperación de cursos desaprobados (P)",
+            "Retiro de asignatura (P)",
+            "Retiro de periodo académico (P)",
+            "Reservas de Matrícula (P)",
+            "Examen extraordinario (P)",
+            "Registro de huellas (P)",
+            "Cambio a la modalidad virtual (P)",
+            "Justificaciones (P)",
+            "Retomar estudios (P)"
+        ];
+
+        const asuntosOnline = [
+            "Registro de Matricula (O)",
+            "Compra de trabajo de subsanción (O)",
+            "Compra de examen de subsanción (O)",
+            "Sesiones Sincronicas (O)",
+            "Consulta de Estado académico (O)",
+            "Inconvenientes de acceso a plataformas académicas (O)",
+            "Solicitud de información del módulo de EFSRT (O)",
+            "Revisión de Observaciones en Evaluaciones (O)",
+            "Cambio a la modalidad presencial (O)",
+            "Recuperación de cursos desaprobados (O)",
+            "Retiro de curso (O)",
+            "Retiro del semestre académico (O)"
+        ];
+
+        // Función para cargar el formulario de PC
+        function cargarFormularioPC() {
+            const formularioPC = `
+            <div class="form-container">
+                <h1><b>Formulario de Consulta</b></h1>
+                <form onsubmit="enviarCorreo(event)">
+                    <label for="modalidad">Modalidad:</label>
+                    <select id="modalidad" name="modalidad" onchange="cargarAsuntos()" required>
+                        <option value="">Seleccione una modalidad</option>
+                        <option value="Presencial">Presencial</option>
+                        <option value="Online">Online</option>
+                    </select>
+
+                    <label for="asunto">Asunto:</label>
+                    <select id="asunto" name="asunto" required>
+                        <option value="">Seleccione un asunto</option>
+                    </select>
+
+                    <label for="nombres">Nombres:</label>
+                    <input type="text" id="nombres" name="nombres" placeholder="Ingrese sus nombres" required>
+
+                    <label for="apellidos">Apellidos:</label>
+                    <input type="text" id="apellidos" name="apellidos" placeholder="Ingrese sus apellidos" required>
+
+                    <label for="descripcion">Descripción de la Consulta:</label>
+                    <textarea id="descripcion" name="descripcion" rows="5" placeholder="Escriba aquí su consulta" required></textarea>
+
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+            `;
+            document.getElementById('form-container').innerHTML = formularioPC;
+        }
+
+        // Función para cargar el formulario de móvil
+        function cargarFormularioMovil() {
+            const formularioMovil = `
+            <div class="form-container">
+                <h1>Formulario de Consulta</h1>
+                <form onsubmit="enviarCorreoMovil(event)">
+                    <label for="modalidad">Modalidad:</label>
+                    <select id="modalidad" name="modalidad" onchange="cargarAsuntos()" required>
+                        <option value="">Seleccione una modalidad</option>
+                        <option value="Presencial">Presencial</option>
+                        <option value="Online">Online</option>
+                    </select>
+
+                    <label for="asunto">Asunto:</label>
+                    <select id="asunto" name="asunto" required>
+                        <option value="">Seleccione un asunto</option>
+                    </select>
+
+                    <label for="nombres">Nombres:</label>
+                    <input type="text" id="nombres" name="nombres" placeholder="Ingrese sus nombres" required>
+
+                    <label for="apellidos">Apellidos:</label>
+                    <input type="text" id="apellidos" name="apellidos" placeholder="Ingrese sus apellidos" required>
+
+                    <label for="descripcion">Descripción de la Consulta:</label>
+                    <textarea id="descripcion" name="descripcion" rows="5" placeholder="Escriba aquí su consulta" required></textarea>
+
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+            `;
+            document.getElementById('form-container').innerHTML = formularioMovil;
+        }
+
+        // Función para cargar los asuntos según la modalidad seleccionada
+        function cargarAsuntos() {
+            const modalidad = document.getElementById('modalidad').value;
+            const comboAsunto = document.getElementById('asunto');
+            comboAsunto.innerHTML = '<option value="">Seleccione un asunto</option>'; // Limpiar el combo
+
+            if (modalidad === "Presencial") {
+                asuntosPresencial.forEach(asunto => {
+                    const option = document.createElement('option');
+                    option.value = asunto;
+                    option.text = asunto;
+                    comboAsunto.appendChild(option);
+                });
+            } else if (modalidad === "Online") {
+                asuntosOnline.forEach(asunto => {
+                    const option = document.createElement('option');
+                    option.value = asunto;
+                    option.text = asunto;
+                    comboAsunto.appendChild(option);
+                });
+            }
+        }
+
+        // Función para enviar correo desde PC
+        function enviarCorreo(event) {
+            event.preventDefault();
+            const modalidad = document.getElementById('modalidad').value;
+            const asunto = document.getElementById('asunto').value;
+            const nombres = document.getElementById('nombres').value;
+            const apellidos = document.getElementById('apellidos').value;
+            const descripcion = document.getElementById('descripcion').value;
+
+            const cuerpoCorreo = `Modalidad: ${modalidad}\nAsunto: ${asunto}\nNombres: ${nombres}\nApellidos: ${apellidos}\n\nDescripción de la Consulta:\n${descripcion}`;
+
+            // Mostrar SweetAlert antes de abrir Gmail
+            Swal.fire({
+                title: '¡Listo!',
+                text: 'A continuación, abriremos Gmail para confirmar tu correo y puedas revisar y enviar.',
+                icon: 'info',
+                confirmButtonText: 'Aceptar',
+                allowOutsideClick: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=helpdesk@blackwell.university&su=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpoCorreo)}`;
+                    window.open(gmailLink, '_blank');
+                }
+            });
+        }
+
+        // Función para enviar correo desde móvil
+        function enviarCorreoMovil(event) {
+            event.preventDefault();
+            const modalidad = document.getElementById('modalidad').value;
+            const asunto = document.getElementById('asunto').value;
+            const nombres = document.getElementById('nombres').value;
+            const apellidos = document.getElementById('apellidos').value;
+            const descripcion = document.getElementById('descripcion').value;
+
+            const cuerpoCorreo = `Modalidad: ${modalidad}\nAsunto: ${asunto}\nNombres: ${nombres}\nApellidos: ${apellidos}\n\nDescripción de la Consulta:\n${descripcion}`;
+
+            // Mostrar SweetAlert antes de abrir el cliente de correo
+            Swal.fire({
+                title: '¡Listo!',
+                text: 'A continuación, abriremos tu aplicación de correo para confirmar y enviar.',
+                icon: 'info',
+                confirmButtonText: 'Aceptar',
+                allowOutsideClick: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const mailtoLink = `mailto:helpdesk@blackwell.university?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpoCorreo)}`;
+                    window.location.href = mailtoLink;
+                }
+            });
+        }
+    </script>
+</body>
+</html>
