@@ -266,7 +266,7 @@
                 allowOutsideClick: false
             }).then((result) => {
                 if (result.isConfirmed) {
-                    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=helpdesk@blackwell.university&su=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpoCorreo)}`;
+                    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=soporte@neumann.edu.pe&su=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpoCorreo)}`;
                     window.open(gmailLink, '_blank');
                 }
             });
@@ -292,7 +292,7 @@
                 allowOutsideClick: false
             }).then((result) => {
                 if (result.isConfirmed) {
-                    const mailtoLink = `mailto:helpdesk@blackwell.university?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpoCorreo)}`;
+                    const mailtoLink = `mailto:soporte@neumann.edu.pe?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpoCorreo)}`;
                     window.location.href = mailtoLink;
                 }
             });
